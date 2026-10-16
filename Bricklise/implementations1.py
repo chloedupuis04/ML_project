@@ -1,5 +1,5 @@
 import numpy as np
-from helpers import sigmoid, calculate_loss, calculate_gradient, compute_mse, compute_gradient, batch_iter
+from helpers1 import sigmoid, calculate_loss, calculate_gradient, compute_mse, compute_gradient, batch_iter, calculate_hessian, learning_by_penalized_gradient
 
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     """The Gradient Descent (GD) algorithm.
@@ -113,38 +113,56 @@ def ridge_regression(y, tx, lambda_):
     return w
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    """return the loss, gradient of the loss, and hessian of the loss.
+    """Logistic regression using Newton's method.
 
     Args:
-        y:  shape=(N, 1)
+        y: shape=(N, 1)
         tx: shape=(N, D)
-        w:  shape=(D, 1)
+        initial_w: shape=(D, 1)
+        max_iters: number of iterations
+        gamma: step size
 
     Returns:
         loss: scalar number
-        gradient: shape=(D, 1)
-        hessian: shape=(D, D)
-
-    >>> y = np.c_[[0., 1.]]
-    >>> tx = np.arange(6).reshape(2, 3)
-    >>> w = np.array([[0.1], [0.2], [0.3]])
-    >>> loss, gradient, hessian = logistic_regression(y, tx, w)
-    >>> round(loss, 8)
-    0.62137268
-    >>> gradient, hessian
-    (array([[-0.10370763],
-           [ 0.2067104 ],
-           [ 0.51712843]]), array([[0.28961235, 0.3861498 , 0.48268724],
-           [0.3861498 , 0.62182124, 0.85749269],
-           [0.48268724, 0.85749269, 1.23229813]]))
+        w: shape=(D, 1)
     """
 
-    loss = calculate_loss(y, tx, w)
-    gradient = calculate_gradient(y, tx, w)
-    hessian = calculate_hessian(y, tx, w)
+    w = initial_w.copy()
 
-    return loss, gradient, hessian
+    for _ in range(max_iters):
+        # Compute gradient and Hessian at current w
+        loss = calculate_loss(y, tx, w)
+        gradient = calculate_gradient(y, tx, w)
+        hessian = calculate_hessian(y, tx, w)
+
+        # Newton update
+        w -= gamma * np.linalg.solve(hessian, gradient)
+
+    # Loss after the final update
+    loss = calculate_loss(y, tx, w)
+
+    return loss, w
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
+    """Regularized logistic regression using gradient descent.
 
-    return
+    Args:
+        y: shape=(N, 1)
+        tx: shape=(N, D)
+        lambda_: regularization parameter
+        initial_w: shape=(D, 1)
+        max_iters: number of gradient descent iterations
+        gamma: learning rate
+
+    Returns:
+        loss: final loss
+        w: final weights
+    """
+    w = initial_w.copy()
+
+    for _ in range(max_iters):
+        loss, w = learning_by_penalized_gradient(
+            y, tx, w, gamma, lambda_
+        )
+
+    return loss, w

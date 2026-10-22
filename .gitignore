@@ -4,3 +4,19 @@ data/
 .venv/
 __pycache__/
 .vscode/
+
+# Datasets
+data/
+
+# Python temporary files
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# macOS files
+.DS_Store
+
+.venv/
+data/

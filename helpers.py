@@ -64,7 +64,7 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     max_batches = int(data_size / batch_size)
     remainder = data_size - max_batches * batch_size
 
-    if shuffle:
+    if shuffle: 
         idxs = np.random.randint(max_batches, size=num_batches) * batch_size
         if remainder != 0:
             idxs += np.random.randint(remainder + 1, size=num_batches)

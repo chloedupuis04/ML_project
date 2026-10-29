@@ -92,7 +92,7 @@ def calculate_loss(y, tx, w):
     loss = -(1/N) * (np.dot(y.T, np.log(sigma + eps)) + np.dot((1-y).T, np.log(1 - sigma + eps)))
     return np.array(np.squeeze(loss))
 
-
+ 
 def calculate_gradient(y, tx, w):
     N = y.shape[0]
     sigma = sigmoid(np.dot(tx, w))    

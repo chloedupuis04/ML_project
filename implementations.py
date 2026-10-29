@@ -12,7 +12,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         loss = compute_mse(y, tx, w)
         
     return w, loss
-
+ 
 
 def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     """The Stochastic Gradient Descent algorithm (SGD)."""

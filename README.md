@@ -2,7 +2,7 @@
 
 ## Overview
 This repository contains the code and resources for Project 1 of the Fall 2026 Machine Learning course (CS-433) at EPFL. The goal of this project is to apply foundational machine learning concepts to a real-world dataset to predict the risk of a person developing coronary heart disease (MICHD).
-
+ 
 ## Dataset
 The dataset is derived from the Behavioral Risk Factor Surveillance System (BRFSS), containing health-related telephone survey data about U.S. residents. 
 - The training data consists of over 300,000 individuals and 321 initial features.
